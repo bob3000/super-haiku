@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Super Haiku</string>
+    <string name="haiku_request">Get Haiku</string>
+    <string name="haiku_not_fetched">Unable to fetch Haiku</string>
+    <string name="note_channel_desc">One Haiku a day</string>
+    <string name="note_channel_name">Haiku</string>
+</resources>
