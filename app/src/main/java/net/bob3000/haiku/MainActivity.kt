@@ -10,9 +10,9 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val ALARM_HOUR = 14
-    val ALARM_MINUTE = 25
-    val ALARM_INTERVAL: Long = 24 * 60 * 1000
+    val ALARM_HOUR = 12
+    val ALARM_MINUTE = 0
+    val ALARM_INTERVAL: Long = AlarmManager.INTERVAL_DAY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         val alarmCal = Calendar.getInstance(Locale.getDefault())
         val randomOffset = Random().nextInt() % 60
-        alarmCal.set(Calendar.HOUR, ALARM_HOUR)
-        alarmCal.set(Calendar.MINUTE, ALARM_MINUTE)
+        alarmCal.set(Calendar.HOUR, hour)
+        alarmCal.set(Calendar.MINUTE, minute)
         alarmCal.add(Calendar.MINUTE, randomOffset)
         val dayInSecs = 86400L
         val triggerTime: Long = alarmCal.timeInMillis - dayInSecs * 1000
 
         val alarmService: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmService.setRepeating(AlarmManager.RTC, triggerTime, ALARM_INTERVAL, pendingIntent)
+        alarmService.setRepeating(AlarmManager.RTC, triggerTime, interval, pendingIntent)
     }
 }
