@@ -4,4 +4,7 @@
     <string name="haiku_not_fetched">Unable to fetch Haiku</string>
     <string name="note_channel_desc">One Haiku a day</string>
     <string name="note_channel_name">Haiku</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_timePickerTitle">Notification Time</string>
 </resources>
