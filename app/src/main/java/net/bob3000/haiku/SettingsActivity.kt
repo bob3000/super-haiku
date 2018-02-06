@@ -20,7 +20,9 @@ import java.util.*
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    val KEY_ALARM_TIME = "pref_key_AlarmTime"
+    companion object {
+        val KEY_ALARM_TIME = "pref_key_AlarmTime"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

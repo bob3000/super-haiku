@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import java.util.*
 
@@ -16,7 +17,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTimer(ALARM_HOUR, ALARM_MINUTE, ALARM_INTERVAL)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = prefs.getLong(SettingsActivity.KEY_ALARM_TIME, 0)
+        if (calendar.timeInMillis == 0L) {
+            calendar.set(Calendar.HOUR_OF_DAY, ALARM_HOUR)
+            calendar.set(Calendar.MINUTE, ALARM_MINUTE)
+        }
+        setTimer(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), ALARM_INTERVAL)
         val haiku = Haiku(applicationContext)
         haiku.load(haiku::show)
     }
