@@ -2,6 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <net.bob3000.haiku.TimePickerPreference
-        android:key="timePrefA_Key"
+        android:key="pref_key_AlarmTime"
         android:title="@string/pref_timePickerTitle" />
 </PreferenceScreen>

@@ -12,7 +12,7 @@ class HaikuDisplayActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display)
-        val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_display)
         setSupportActionBar(toolbar)
         val haiku = intent.extras[Haiku.EXTRA_HAIKU] as Haiku
         haiku.context = applicationContext
@@ -37,9 +37,12 @@ class HaikuDisplayActivity: AppCompatActivity() {
         return true
     }
 
-    private fun displayHaiku(haiku: Haiku) {
-        findViewById<TextView>(R.id.haiku_title).setText(haiku.title)
-        findViewById<TextView>(R.id.haiku_author).setText(haiku.author)
-        findViewById<TextView>(R.id.haiku_body).setText(haiku.body)
+    fun displayHaiku(haiku: Haiku) {
+        val title = findViewById<TextView>(R.id.haiku_title)
+        title.text = haiku.title
+        val author = findViewById<TextView>(R.id.haiku_author)
+        author.text = haiku.author
+        val body = findViewById<TextView>(R.id.haiku_body)
+        body.text = haiku.body
     }
 }

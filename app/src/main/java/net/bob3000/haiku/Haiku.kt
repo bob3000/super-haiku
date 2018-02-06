@@ -28,8 +28,7 @@ class Haiku(var context: Context? = null, var title: String? = null, var body: S
             null,
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
-    }
+            parcel.readString())
 
     fun load(callback: () -> Unit) {
         val stringRequest = object : StringRequest(Request.Method.GET, todaysHaikuURL(),
@@ -46,7 +45,7 @@ class Haiku(var context: Context? = null, var title: String? = null, var body: S
                                 Toast.LENGTH_LONG).show()
                     }
                 },
-                Response.ErrorListener { error ->
+                Response.ErrorListener {
                     Toast.makeText(context, R.string.haiku_not_fetched,
                             Toast.LENGTH_LONG).show()
                 }) {
@@ -73,6 +72,7 @@ class Haiku(var context: Context? = null, var title: String? = null, var body: S
     Used as callback with the load() method
      */
     @SuppressLint("NewApi")
+    @Suppress("deprecation")
     fun createNotification() {
         var builder = NotificationCompat.Builder(context)
         val noteMgr = context!!.getSystemService(
