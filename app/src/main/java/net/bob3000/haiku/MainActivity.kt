@@ -15,6 +15,26 @@ class MainActivity : AppCompatActivity() {
     val ALARM_MINUTE = 0
     val ALARM_INTERVAL: Long = AlarmManager.INTERVAL_DAY
 
+    companion object {
+
+        fun setTimer(context: Context, hour: Int, minute: Int, interval: Long) {
+            val intent = Intent(context, AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+
+            val alarmCal = Calendar.getInstance(Locale.getDefault())
+            val randomOffset = Random().nextInt() % 60
+            alarmCal.set(Calendar.HOUR, hour)
+            alarmCal.set(Calendar.MINUTE, minute)
+            alarmCal.add(Calendar.SECOND, randomOffset)
+            val dayInSecs = 86400L
+            val triggerTime: Long = alarmCal.timeInMillis - dayInSecs * 1000
+
+            val alarmService: AlarmManager = context.getSystemService(
+                    Context.ALARM_SERVICE) as AlarmManager
+            alarmService.setInexactRepeating(AlarmManager.RTC, triggerTime, interval, pendingIntent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -24,24 +44,9 @@ class MainActivity : AppCompatActivity() {
             calendar.set(Calendar.HOUR_OF_DAY, ALARM_HOUR)
             calendar.set(Calendar.MINUTE, ALARM_MINUTE)
         }
-        setTimer(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), ALARM_INTERVAL)
+        setTimer(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),
+                ALARM_INTERVAL)
         val haiku = Haiku(applicationContext)
         haiku.load(haiku::show)
-    }
-
-    fun setTimer(hour: Int, minute: Int, interval: Long) {
-        val intent = Intent(this, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-
-        val alarmCal = Calendar.getInstance(Locale.getDefault())
-        val randomOffset = Random().nextInt() % 60
-        alarmCal.set(Calendar.HOUR, hour)
-        alarmCal.set(Calendar.MINUTE, minute)
-        alarmCal.add(Calendar.MINUTE, randomOffset)
-        val dayInSecs = 86400L
-        val triggerTime: Long = alarmCal.timeInMillis - dayInSecs * 1000
-
-        val alarmService: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmService.setRepeating(AlarmManager.RTC, triggerTime, interval, pendingIntent)
     }
 }

@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.DialogPreference
 import android.preference.PreferenceFragment
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.format.DateFormat
@@ -28,6 +29,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         setupActionBar()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs.registerOnSharedPreferenceChangeListener(this)
         fragmentManager.beginTransaction()
                 .replace(android.R.id.content, SettingsFragment())
                 .commit()
@@ -58,16 +61,13 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == KEY_ALARM_TIME) {
-            val timeInMillis = sharedPreferences!!.getInt(KEY_ALARM_TIME, 0)
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.MILLISECOND, timeInMillis)
+            val timeInMillis = sharedPreferences!!.getLong(KEY_ALARM_TIME, 0)
+            val calendar = Calendar.getInstance(Locale.getDefault())
+            calendar.timeInMillis = timeInMillis
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
             val interval = AlarmManager.INTERVAL_DAY
-            MainActivity().setTimer(hour, minute, interval)
-
-            val haiku = Haiku(null, hour.toString(), minute.toString(), interval.toString())
-            HaikuDisplayActivity().displayHaiku(haiku)
+            MainActivity.setTimer(this, hour, minute, interval)
         }
     }
 }
